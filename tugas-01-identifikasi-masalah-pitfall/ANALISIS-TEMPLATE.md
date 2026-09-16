@@ -25,6 +25,8 @@
 ## Pitfall 2: [nama pitfall] — ditulis oleh [nama]
 
 (ulangi struktur di atas)
+bla bla blaaa
+ini bukan generate ai
 
 ---
 
