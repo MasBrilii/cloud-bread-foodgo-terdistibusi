@@ -61,6 +61,7 @@ Selain itu, FoodGo juga dapat melakukan monitoring terhadap waktu response antar
 **Trade-off:** Menurut saya, penggunaan komunikasi asynchronous atau message queue dapat mengurangi ketergantungan terhadap response secara langsung, tetapi membuat sistem menjadi lebih kompleks. Data yang dikirim tidak selalu langsung mendapatkan hasil sehingga perlu ada mekanisme untuk memastikan pesan tetap diproses.
 
 Sedangkan penggunaan timeout juga mempunyai trade-off. Kalau timeout terlalu cepat, request yang sebenarnya masih dalam proses bisa dianggap gagal. Tetapi kalau timeout terlalu lama, pengguna tetap harus menunggu cukup lama sebelum sistem menyatakan bahwa request tersebut gagal.
+
 ---
 
 ## Pitfall 3: Single Point of Failure — ditulis oleh [BRILIANT]
