@@ -25,7 +25,7 @@
   membaca kembali soal, ternyata masalah desain arsitektur juga diperbolehkan
   untuk digunakan sebagai pitfall selain 8 Fallacies.
 - Setelah pembahasan, kami menyepakati tiga pitfall yang digunakan adalah
-  The Network Is Reliable, Latency Is Zero, dan Single Point of Failure.
+  The Network Is Reliable, Latency Is Zero, dan Single Point of Failure. 
 
 ## [Tanggal diskusi 2]
 - ...

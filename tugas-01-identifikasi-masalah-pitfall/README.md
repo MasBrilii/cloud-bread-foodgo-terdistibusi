@@ -6,7 +6,7 @@
 |---|---|---|
 | SALMAN ALFARIZI | 103072400047 | The Network Is Reliable |
 | MUHAMMAD AUBERT FAWWAZ PRAYITNO | 10307240164 | Latency Is Zero |
-| BRILIANT DAHSYAT ANUGRAH | 103072400169 | Single Point of Failure |
+| BRILIANT DAHSYAT ANUGRAH | 103072400164 | Single Point of Failure |
 
 ## Pitfall 1: The Network Is Reliable — ditulis oleh SALMAN
 
@@ -30,9 +30,11 @@ Selain itu, dapat digunakan retry apabila kegagalan yang terjadi hanya sementara
 
 Untuk kondisi yang lebih parah, seperti modul pembayaran terus mengalami kegagalan, dapat juga digunakan circuit breaker agar sistem tidak terus mencoba menghubungi service yang sedang bermasalah.
 
-**Trade-off:** Menurut saya, penggunaan timeout dan retry memang dapat membantu sistem ketika terjadi gangguan, tetapi juga mempunyai kekurangan. Retry yang terlalu sering justru bisa membuat jumlah request semakin banyak dan menambah beban pada service yang sedang bermasalah.
+**Trade-off:** Pemisahan service juga memiliki kekurangan. Sistem menjadi lebih kompleks karena setiap service harus saling berkomunikasi melalui network.
 
-Selain itu, timeout juga harus ditentukan dengan tepat. Kalau waktunya terlalu pendek, request yang sebenarnya masih dalam proses bisa dianggap gagal. Tetapi kalau terlalu lama, masalahnya hampir sama karena sistem masih harus menunggu cukup lama sebelum mengetahui bahwa request tersebut gagal.
+Masalah seperti koneksi gagal atau response yang lambat juga bisa terjadi. Selain itu, FoodGo harus melakukan monitoring terhadap setiap service agar dapat mengetahui jika ada masalah.
+
+Jadi, memisahkan service dapat mengurangi dampak ketika satu bagian mengalami masalah, tetapi FoodGo tetap membutuhkan monitoring dan pengelolaan sistem yang baik.
 
 ---
 
@@ -66,13 +68,13 @@ Sedangkan penggunaan timeout juga mempunyai trade-off. Kalau timeout terlalu cep
 
 ## Pitfall 3: Single Point of Failure — ditulis oleh [BRILIANT]
 
-**Bukti di skenario:** Di dalam skenario dijelaskan bahwa satu server menangani semua modul FoodGo, yaitu modul orders, payment, dan courier notifications. Selain itu, backend server juga terkadang mengalami crash dan harus dilakukan restart secara manual. Pada saat traffic meningkat, server tersebut juga dapat menjadi overwhelmed.
+**Bukti di skenario:** Di dalam skenario dijelaskan bahwa satu server digunakan untuk menangani semua modul FoodGo, yaitu Order, Payment, dan Courier Notification. Server tersebut juga terkadang mengalami crash dan harus di-restart secara manual. Saat traffic meningkat, server juga bisa mengalami beban yang terlalu tinggi.
 
-**Kenapa ini keliru:** Menurut saya, kesalahan tim FoodGo di bagian ini adalah semua modul utama masih dijalankan dalam satu server atau satu proses. Jadi ketika server tersebut mengalami masalah, bukan hanya satu bagian saja yang terkena dampaknya, tetapi beberapa fungsi FoodGo bisa ikut terganggu.
+**Kenapa ini keliru:** Menurut saya, masalahnya adalah semua modul utama FoodGo masih menggunakan satu server yang sama.
 
-Hal ini menjadi lebih berisiko karena pada skenario sendiri sudah disebutkan bahwa backend server terkadang crash dan membutuhkan restart secara manual. Berarti server yang digunakan memang mempunyai kemungkinan mengalami kegagalan. Kalau semua modul masih berada pada server yang sama, ketika server tersebut crash maka modul Order, Payment, maupun Courier Notification juga bisa ikut tidak berjalan.
+Jika server tersebut mengalami masalah atau crash, beberapa fitur FoodGo bisa ikut terganggu. Misalnya, Order, Payment, dan Courier Notification bisa berhenti secara bersamaan.
 
-Selain itu, ketika traffic FoodGo semakin meningkat, satu server harus menangani pekerjaan dari berbagai modul sekaligus. Menurut saya, hal ini dapat membuat beban server semakin besar dan akhirnya menyebabkan server menjadi overwhelmed seperti yang sudah disebutkan pada skenario.
+Masalah ini juga semakin besar ketika jumlah pengguna meningkat. Satu server harus menangani banyak proses sekaligus. Akibatnya, beban server menjadi semakin berat dan server bisa menjadi overwhelmed.
 
 **Dampak ke FoodGo:** Dampaknya adalah ketika server utama mengalami masalah, banyak fungsi FoodGo dapat terganggu secara bersamaan. Misalnya proses pemesanan tidak berjalan, proses pembayaran ikut terganggu, dan notifikasi kepada kurir juga dapat terpengaruh.
 
