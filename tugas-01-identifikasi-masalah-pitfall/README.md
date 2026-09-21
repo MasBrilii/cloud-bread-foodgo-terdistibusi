@@ -5,7 +5,7 @@
 | Nama | NIM | Kontribusi |
 |---|---|---|
 | SALMAN ALFARIZI | 103072400047 | The Network Is Reliable |
-| MUHAMMAD AUBERT FAWWAZ PRAYITNO | 10307240164 | Latency Is Zero |
+| MUHAMMAD AUBERT FAWWAZ PRAYITNO | 103072400169 | Latency Is Zero |
 | BRILIANT DAHSYAT ANUGRAH | 103072400164 | Single Point of Failure |
 
 ## Pitfall 1: The Network Is Reliable — ditulis oleh SALMAN
