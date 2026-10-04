@@ -1,5 +1,5 @@
 # TODO 1: Pilih base image Python resmi yang ringan (cari tag "slim" di Docker Hub).
-FROM python:__ISI_VERSI__-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ COPY src/ ./src/
 
 # TODO 3: Tulis perintah default yang dijalankan saat container start,
 # yaitu menjalankan src/order_simulator.py dengan python3.
-CMD ["__LENGKAPI_INI__"]
+CMD ["python3", "src/order_simulator.py"]
