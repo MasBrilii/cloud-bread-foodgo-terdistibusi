@@ -2,9 +2,8 @@
 
 ## Percobaan tanpa Lock
 
-* Hasil `processed_count` yang didapat: 100 dari 100 pesanan. Pada beberapa kali percobaan, hasil yang didapat tetap 100 sehingga race condition tidak terlihat pada saat pengujian.
-* Kenapa bisa meleset (jelaskan mekanisme race condition dengan kata sendiri): Race condition dapat terjadi ketika beberapa thread mengakses dan mengubah `processed_count` secara bersamaan tanpa pengaman. Proses `processed_count += 1` terdiri dari membaca nilai, menambahkan 1, kemudian menyimpan kembali hasilnya. Jika dua thread melakukan proses tersebut pada waktu yang hampir bersamaan, salah satu perubahan dapat tertimpa oleh thread lain sehingga jumlah akhirnya bisa kurang dari jumlah pesanan yang sebenarnya. Pada percobaan ini kondisi tersebut tidak muncul dan hasil tetap 100.
-
+* Hasil processed_count yang didapat: 100 dari 100 pesanan. Setelah dicoba beberapa kali, hasilnya selalu pas 100, sehingga masalah race condition belum sempat terlihat saat pengujian.
+* Kenapa bisa meleset (jelaskan mekanisme race condition dengan kata sendiri): Angka hitungan bisa meleset karena perintah processed_count += 1 sebenarnya melewati tiga tahap: membaca angka yang ada, menambah 1, lalu menyimpan angka baru. Jika ada dua pekerja (thread) jalan barengan tanpa antrean (lock), keduanya bisa saja melihat angka yang sama secara serentak. Akibatnya, salah satu hasil hitungan tertimpa oleh yang lain dan total akhirnya jadi berkurang dari yang seharusnya. Pada pengujian saya, tabrakan ini belum sempat terjadi karena jumlah pesanannya masih sedikit dan komputernya bekerja terlalu cepat, sehingga hasil akhirnya masih tetap 100.
 ## Percobaan dengan Lock
 
 * Hasil `processed_count` setelah perbaikan: 100 dari 100 pesanan. Setelah menggunakan `threading.Lock()` dan membungkus proses increment dengan `with lock:`, hasil penghitungan menjadi terlindungi dari akses bersamaan sehingga hasil tetap sesuai dengan jumlah pesanan yang diproses.
